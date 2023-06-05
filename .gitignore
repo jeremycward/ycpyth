@@ -1,0 +1,5 @@
+.venv
+.idea
+__pycache__
+tests/__pycache__
+yc/__pycache__
