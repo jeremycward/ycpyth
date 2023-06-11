@@ -11,13 +11,6 @@ from datetime import datetime
 
 
 
-def ping():
-    now = datetime.now()
-    timeMsg = now.strftime("%H:%M:%S")
-    sse.publish({"message": "Hello!  time is now {}".format(timeMsg)}, type='greeting')
-    print("sent message")
-
-
 
 class Main:
     app = Flask(__name__, template_folder=os.environ["TEMPLATE_DIR"])
@@ -41,7 +34,9 @@ class Main:
 
         @self.app.route("/hello")
         def publish_hello():
-            sse.publish({"message": "Hello!"}, type='greeting')
+            now = datetime.now()
+            timeMsg = now.strftime("%H:%M:%S")
+            sse.publish({"message": "Hello!  time is now {}".format(timeMsg)}, type='greeting')
             return "Message sent!"
 
         @self.app.route('/')
