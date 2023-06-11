@@ -47,3 +47,6 @@ class Main:
 if __name__ == "__main__":
     main = Main()
     main.app.run(debug=True)
+else:
+    if __name__ == '__main__':
+        app = Main().app
