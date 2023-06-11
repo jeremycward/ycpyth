@@ -1,23 +1,28 @@
+import datetime
+
 from flask import Flask, request, render_template
 import orjson
 from flask_cors import CORS
 from yc.Curve import curve_repo
 from flask_sse import sse
-import schedule
+
+import os
+from datetime import datetime
+
 
 
 def ping():
-    sse.publish({"message": "Hello!"}, type='greeting')
+    now = datetime.now()
+    timeMsg = now.strftime("%H:%M:%S")
+    sse.publish({"message": "Hello!  time is now {}".format(timeMsg)}, type='greeting')
     print("sent message")
 
 
-schedule.every(1).seconds.do(ping)
-
 
 class Main:
-    app = Flask(__name__, template_folder='C:\\Users\\jerem\\PycharmProjects\\pythonProject\\yc\\templates')
+    app = Flask(__name__, template_folder=os.environ["TEMPLATE_DIR"])
     CORS(app, support_credentials=True)
-    app.config["REDIS_URL"] = "redis://daphne174"
+    app.config["REDIS_URL"] = "redis://{}".format(os.environ["REDIS_HOST"])
     app.register_blueprint(sse, url_prefix='/stream')
 
     def __init__(self):
