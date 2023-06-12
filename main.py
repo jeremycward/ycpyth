@@ -39,19 +39,14 @@ class Main:
         def publish_hello():
             now = datetime.now()
             timeMsg = now.strftime("%H:%M:%S")
-            sse.publish({"message": "Hello!  time is now {}".format(timeMsg)}, type='greeting')
-            return "Message sent!"
+            msg = RfqMessage(id=timeMsg, status="ok")
+            sse.publish(orjson.dumps(msg), type='greeting')
 
         @self.app.route('/')
         def index():
             return render_template("index.html")
 
 
-def sendRfq():
-    now = datetime.now()
-    timeMsg = now.strftime("%H:%M:%S")
-    msg = RfqMessage(id=timeMsg, status="ok")
-    sse.publish(orjson.dumps(msg), type='greeting')
 
 
 if __name__ == "__main__":
@@ -59,8 +54,5 @@ if __name__ == "__main__":
     main.app.run(debug=True)
 else:
     app = Main().app
-    schedule.every(10).seconds.do(sendRfq)
 
-    while 1:
-        schedule.run_pending()
-        time.sleep(1)
+
