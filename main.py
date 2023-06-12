@@ -40,7 +40,7 @@ class Main:
             now = datetime.now()
             timeMsg = now.strftime("%H:%M:%S")
             msg = RfqMessage(id=timeMsg, status="ok")
-            msgStr = '{id:"hrll", status:"ok"}'
+            msgStr = '{"id":"hrll", "status":"ok"}'
             sse.publish(msgStr, type='greeting')
             return "printed message"
 
