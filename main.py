@@ -40,8 +40,8 @@ class Main:
             now = datetime.now()
             timeMsg = now.strftime("%H:%M:%S")
             msg = RfqMessage(id=timeMsg, status="ok")
-            msgStr = '{id:"{}", status:"{}"}'.format(timeMsg,"ok")
-            sse.publish(orjson.dumps(msg), type='greeting')
+            msgStr = '{id:"hrll", status:"ok"}'
+            sse.publish(msgStr, type='greeting')
 
         @self.app.route('/')
         def index():
