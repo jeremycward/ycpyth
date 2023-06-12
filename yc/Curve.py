@@ -11,6 +11,12 @@ from yc.plot_utils import all_tenors_and_rates, tenor_to_period
 
 
 @dataclass()
+class RfqMessage:
+    id: str
+    status: str
+
+
+@dataclass()
 class Plot:
     x: list[datetime.date]
     y: list[float]

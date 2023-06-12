@@ -5,11 +5,14 @@ import orjson
 from flask_cors import CORS
 from yc.Curve import curve_repo
 from flask_sse import sse
+from yc.Curve import RfqMessage
 
 import os
 from datetime import datetime
 
 
+import schedule
+import time
 
 
 class Main:
@@ -44,8 +47,20 @@ class Main:
             return render_template("index.html")
 
 
+def sendRfq():
+    now = datetime.now()
+    timeMsg = now.strftime("%H:%M:%S")
+    msg = RfqMessage(id=timeMsg, status="ok")
+    sse.publish(orjson.dumps(msg), type='greeting')
+
+
 if __name__ == "__main__":
     main = Main()
     main.app.run(debug=True)
 else:
     app = Main().app
+    schedule.every(10).seconds.do(sendRfq)
+
+    while 1:
+        schedule.run_pending()
+        time.sleep(1)
