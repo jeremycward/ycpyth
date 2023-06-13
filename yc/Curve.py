@@ -30,6 +30,7 @@ class Point:
 
 
 @dataclass
+@dataclass
 class Handle:
     name: str
     description: str
