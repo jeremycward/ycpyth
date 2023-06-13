@@ -40,7 +40,8 @@ class Main:
                 "id": request.args.get("id"),
                 "status": request.args.get("status")
             }
-            msgStr = orjson.dumps(msg_dict)
+            msgStr = orjson.dumps(msg_dict).decode('utf-8')
+            print (msgStr)
             sse.publish(msgStr)
             return "printed message {}".format(msgStr)
 
