@@ -42,7 +42,7 @@ class Main:
             }
             msgStr = orjson.dumps(msg_dict).decode('utf-8')
             print (msgStr)
-            sse.publish(msgStr)
+            sse.publish(msgStr,type="greeting")
             return "printed message {}".format(msgStr)
 
         @self.app.route('/')
