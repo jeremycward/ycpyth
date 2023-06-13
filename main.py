@@ -10,7 +10,6 @@ from yc.Curve import RfqMessage
 import os
 from datetime import datetime
 
-
 import schedule
 import time
 
@@ -37,18 +36,17 @@ class Main:
 
         @self.app.route("/hello")
         def publish_hello():
-            now = datetime.now()
-            timeMsg = now.strftime("%H:%M:%S")
-            msg = RfqMessage(id=timeMsg, status="ok")
-            msgStr = '{"id":"hrll", "status":"ok"}'
-            sse.publish(msgStr, type='greeting')
-            return "printed message"
+            msg_dict = {
+                "id": request.args.get("id"),
+                "status": request.args.get("status")
+            }
+            msgStr = orjson.dumps(msg_dict)
+            sse.publish(msgStr)
+            return "printed message {}".format(msgStr)
 
         @self.app.route('/')
         def index():
             return render_template("index.html")
-
-
 
 
 if __name__ == "__main__":
@@ -56,5 +54,3 @@ if __name__ == "__main__":
     main.app.run(debug=True)
 else:
     app = Main().app
-
-
